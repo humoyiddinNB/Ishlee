@@ -41,6 +41,7 @@
     <p><strong>Ism:</strong> {{ user.first_name }}</p>
     <p><strong>Familiya:</strong> {{ user.last_name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
+    <a href="{% url 'users:profile_update' user.id %}" class="btn btn-primary w-100 mt-3">O'zgartirish</a>
     <a href="{% url 'homepage:homepage' %}" class="btn btn-primary w-100 mt-3">Bosh Sahifa</a>
 </div>
 

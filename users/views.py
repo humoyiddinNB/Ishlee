@@ -40,3 +40,19 @@ class ProfileView(View):
     def get(self, request, pk):
         user = get_object_or_404(User, id=pk)
         return render(request, 'user_profile.html', {'user':user})
+
+class ProfileUpdateView(View):
+    def get(self, request, pk):
+        user = get_object_or_404(User, id=pk)
+        form = RegisterForm(instance=user)
+        return render(request, 'profile_update.html', {'form' : form, 'user' : user})
+
+    def post(self, request, pk):
+        user = get_object_or_404(User, id=pk)
+        form = RegisterForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            login(request, user)
+            return redirect('users:user_profile', pk=user.id)
+        return render(request, 'profile_update.html', {'form' : form, 'user' : user})
+

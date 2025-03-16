@@ -27,7 +27,7 @@ class AllVacanciesView(View):
 
         all = all_vacancies.count()
 
-        paginator = Paginator(all_vacancies, 5)
+        paginator = Paginator(all_vacancies, 3)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         vacancies = page_obj.object_list

@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -113,6 +113,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.parse('postgresql://ishlee_user:6M1JxwKpWn2FskPxgvnijWErOhwcB9F3@dpg-cva1a7rtq21c73bppv00-a.oregon-postgres.render.com/ishlee')
+}
 
 
 # Static files (CSS, JavaScript, Images)

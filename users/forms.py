@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth  import authenticate
 
 
 class RegisterForm(forms.ModelForm):
@@ -26,11 +27,18 @@ class RegisterForm(forms.ModelForm):
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput())
-    password = forms.CharField(widget=forms.TextInput())
+    password = forms.CharField(widget=forms.PasswordInput())
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
         if not User.objects.filter(username=username).exists():
-            raise ValidationError("Bunday username egasi yoq")
-        return username
+            raise ValidationError("Bunday username egasi yo‘q!")
 
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise ValidationError("Parol noto‘g‘ri!")
+
+        return cleaned_data
