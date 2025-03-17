@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=)4=t3$u6kb*t1gzxlq=y_z5m92#0ee-4u*m1ub(0yumf5&3)z'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,8 +43,11 @@ INSTALLED_APPS = [
     'vacancy'
 ]
 
+import whitenoise.middleware
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -114,17 +118,24 @@ USE_I18N = True
 
 USE_TZ = True
 
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 import dj_database_url
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://ishlee_user:6M1JxwKpWn2FskPxgvnijWErOhwcB9F3@dpg-cva1a7rtq21c73bppv00-a.oregon-postgres.render.com/ishlee')
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
